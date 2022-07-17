@@ -18,6 +18,8 @@ class OrderModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String(20), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship("UserModel")
 
-    products = db.relationship("ProductModel", lazy="dynamic")
+    products = db.relationship("ProductsInOrder", back_populates="order")
 
