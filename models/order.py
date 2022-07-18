@@ -1,4 +1,7 @@
+from sqlalchemy import func
+
 from db import db
+from models.enums import State
 
 
 class ProductsInOrder(db.Model):
@@ -17,9 +20,15 @@ class OrderModel(db.Model):
     __tablename__ = "orders"
 
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(20), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    user = db.relationship("UserModel")
+    create_on = db.Column(db.DateTime, server_default=func.now())
+    status = db.Column(
+        db.Enum(State),
+        default=State.pending,
+        nullable=False
+    )
+
+    client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
+    client = db.relationship("ClientModel")
 
     products = db.relationship("ProductsInOrder", back_populates="order")
 

@@ -1,7 +1,9 @@
-from resources.auth import RegisterUser, LoginUser
+from resources.auth import RegisterClient, LoginClient
+from resources.order import OrderResource
 
 routes = (
-    (RegisterUser, "/register"),
-    (LoginUser, "/login"),
+    (RegisterClient, "/register"),
+    (LoginClient, "/login"),
+    (OrderResource, "/order"),
 
 )
