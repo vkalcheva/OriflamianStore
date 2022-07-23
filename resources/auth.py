@@ -20,4 +20,3 @@ class LoginClient(Resource):
         data = request.get_json()
         token = ClientManager.login(data)
         return {"token": token}, 200
-

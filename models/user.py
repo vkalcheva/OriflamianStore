@@ -16,46 +16,18 @@ class BaseUserModel(db.Model):
 class PartnerModel(BaseUserModel):
     __tablename__ = "partners"
 
-    role = db.Column(
-        db.Enum(RoleType),
-        default=RoleType.partner,
-        nullable=False
-    )
+    role = db.Column(db.Enum(RoleType), default=RoleType.partner, nullable=False)
 
 
 class ClientModel(BaseUserModel):
     __tablename__ = "clients"
 
-    orders = db.relationship("OrderModel", backref="order", lazy="dynamic")
-    role = db.Column(
-        db.Enum(RoleType),
-        default=RoleType.client,
-        nullable=False
-    )
+    role = db.Column(db.Enum(RoleType), default=RoleType.client, nullable=False)
+
+    orders = db.relationship("OrderModel", back_populates="client", lazy="dynamic")
 
 
 class AdminModel(BaseUserModel):
-    __tablename__ = 'admins'
+    __tablename__ = "admins"
 
-    role =db.Column(
-        db.Enum(RoleType),
-        default=RoleType.admin,
-        nullable=False
-    )
-
-    products = db.relationship("ProductModel", backref="product", lazy="dynamic")
-    categories = db.relationship("CategoryModel", backref="category", lazy="dynamic")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    role = db.Column(db.Enum(RoleType), default=RoleType.admin, nullable=False)

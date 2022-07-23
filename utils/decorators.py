@@ -13,5 +13,7 @@ def validate_schema(schema_name):
             if errors:
                 raise BadRequest(f"Invalid fields {errors}")
             return f(*args, **kwargs)
+
         return decorated_function
+
     return decorator

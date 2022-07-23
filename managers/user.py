@@ -9,11 +9,12 @@ from models import ClientModel
 class ClientManager:
     @staticmethod
     def register(client_data):
-        client_data["password"] = generate_password_hash(client_data['password'], method='sha256')
+        client_data["password"] = generate_password_hash(
+            client_data["password"], method="sha256"
+        )
         client = ClientModel(**client_data)
         try:
             db.session.add(client)
-            db.session.commit()
             return AuthManager.encode_token(client)
         except Exception as ex:
             raise BadRequest(str(ex))

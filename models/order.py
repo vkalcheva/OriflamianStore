@@ -21,14 +21,8 @@ class OrderModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     create_on = db.Column(db.DateTime, server_default=func.now())
-    status = db.Column(
-        db.Enum(State),
-        default=State.pending,
-        nullable=False
-    )
+    status = db.Column(db.Enum(State), default=State.pending, nullable=False)
 
-    client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey("clients.id"))
     client = db.relationship("ClientModel")
-
     products = db.relationship("ProductsInOrder", back_populates="order")
-

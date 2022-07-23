@@ -7,15 +7,20 @@ from resources.routes import routes
 
 app = Flask(__name__)
 db.init_app(app)
-app.config.from_object('config.DevelopmentConfig')
+app.config.from_object("config.DevelopmentConfig")
 
 api = Api(app)
 migrate = Migrate(app, db)
 
 
+@app.after_request
+def close_request(response):
+    db.session.commit()
+    return response
+
+
 [api.add_resource(*route) for route in routes]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
-

@@ -3,18 +3,19 @@ from flask import request
 from werkzeug.exceptions import BadRequest
 
 from db import db
-from models import ProductModel, OrderModel, ProductsInOrder
+from models import ProductModel, OrderModel, ProductsInOrder, State
 
 
 class OrderManager:
     @staticmethod
-    def create(data, client):
+    def create(data, user):
         """
         Expect a token and a list of item ids from the request body.
         Construct an order and talk to the Strip API to make a charge.
         """
-        data["client_id"] = client.id
         data = request.get_json()
+        data["client_id"] = user.id
+
         products = []
         product_id_quantities = Counter(data["product_ids"])
 
@@ -25,8 +26,15 @@ class OrderManager:
 
             products.append(ProductsInOrder(product_id=_id, quantity=count))
 
-        order = OrderModel(products=products)
+        order = OrderModel(products=products, client_id=user.id)
 
         db.session.add(order)
-        db.session.commit()
         return order
+
+    @staticmethod
+    def approve(order_id):
+        OrderModel.query.filter_by(id=order_id).update({"status": State.approved})
+
+    @staticmethod
+    def reject(order_id):
+        OrderModel.query.filter_by(id=order_id).update({"status": State.rejected})
