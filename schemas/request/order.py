@@ -1,5 +1,5 @@
-from marshmallow import Schema
+from marshmallow import Schema, fields
 
 
 class OrderSchemaRequest(Schema):
-    pass
+    products = fields.List(fields.Str())

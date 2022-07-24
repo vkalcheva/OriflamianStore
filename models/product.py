@@ -12,3 +12,6 @@ class ProductModel(db.Model):
 
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
     category = db.relationship("CategoryModel", back_populates="products")
+
+    admin_id = db.Column(db.Integer, db.ForeignKey("admins.id"))
+    admin = db.relationship("AdminModel")

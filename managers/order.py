@@ -17,7 +17,7 @@ class OrderManager:
         data["client_id"] = user.id
 
         products = []
-        product_id_quantities = Counter(data["product_ids"])
+        product_id_quantities = Counter(data["products"])
 
         for _id, count in product_id_quantities.most_common():
             product = ProductModel.query.filter_by(id=_id).first()
@@ -29,6 +29,7 @@ class OrderManager:
         order = OrderModel(products=products, client_id=user.id)
 
         db.session.add(order)
+        # db.session.commit()
         return order
 
     @staticmethod

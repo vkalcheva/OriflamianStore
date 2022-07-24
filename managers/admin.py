@@ -12,7 +12,6 @@ class AdminManager:
         admin_data["password"] = generate_password_hash(admin_data["password"])
         admin = AdminModel(**admin_data)
         db.session.add(admin)
-        db.session.commit()
         return AuthManager.encode_token(admin)
 
     @staticmethod

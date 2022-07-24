@@ -31,3 +31,5 @@ class AdminModel(BaseUserModel):
     __tablename__ = "admins"
 
     role = db.Column(db.Enum(RoleType), default=RoleType.admin, nullable=False)
+    products = db.relationship("ProductModel", back_populates="admin", lazy="dynamic")
+    categories = db.relationship("CategoryModel", back_populates="admin", lazy="dynamic")
